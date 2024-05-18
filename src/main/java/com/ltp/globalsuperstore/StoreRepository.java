@@ -3,6 +3,11 @@ package com.ltp.globalsuperstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+//Annotation/ Declaration of StoreRepository Dependency
+//This should connect to a relational database
+@Repository
 public class StoreRepository {
     
     private List<Item> items = new ArrayList<>();

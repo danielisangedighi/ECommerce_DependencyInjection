@@ -4,9 +4,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+//Service Dependency
+@Service
 public class StoreService {
 
-    StoreRepository storeRepository = new StoreRepository();
+    //Call for StoreRepository Object
+    StoreRepository storeRepository;
+
+    //Injection of StoreRepository Beans/Dependency
+    @Autowired
+    public StoreService(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
+    }
     
     public Item getItem(int index) {
         return storeRepository.getItem(index);
@@ -42,13 +54,17 @@ public class StoreService {
     }
 
     public String handleSubmit(Item item) {
+
         int index = getIndexFromId(item.getId());
         String status = Constants.SUCCESS_STATUS;
+
         if (index == Constants.NOT_FOUND) {
             addItem(item);
-        } else if (within5Days(item.getDate(), getItem(index).getDate())) {
+        } 
+        else if (within5Days(item.getDate(), getItem(index).getDate())) {
             updateItem(item, index);
-        } else {
+        } 
+        else {
             status = Constants.FAILED_STATUS;
         }
         return status;
